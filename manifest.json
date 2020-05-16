@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Stopopts HACK",
+  "short_name": "StopoptsHack",
+  "description": "Hack para o jogo Stopots",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "matches": ["*://*.stopots.com.br/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "pages/configuration.html"
+  },
+  "browser_action": {
+    "default_icon": "imgs/icon.png",
+    "default_title": "Stopots HACK",
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": ["tabs", "storage"]
+}

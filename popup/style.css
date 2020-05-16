@@ -1,0 +1,10 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+#main {
+  padding: 30px;
+  margin: 30px;
+  background-color: #312b99;
+  border-radius: 10px;
+}

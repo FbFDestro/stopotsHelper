@@ -8,3 +8,38 @@
   background-color: #312b99;
   border-radius: 10px;
 }
+
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  color: #9b95d1;
+  width: max-content;
+}
+
+span.answer-word {
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  text-align: center;
+  border-bottom: 1px dashed #9b95d1;
+  padding-bottom: 5px;
+}
+
+.answer-options {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+span.answer-btn {
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 0 3px;
+  transition: 0.5s;
+}
+
+span.answer-btn:hover {
+  color: #fff;
+}
+span.answer-pages {
+  padding: 6px 3px;
+}

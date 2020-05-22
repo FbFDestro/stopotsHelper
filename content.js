@@ -11,11 +11,17 @@ const utils = {
     return !!letter ? letter.innerText : null;
   },
   loadedStyle: false,
+  dictionary: null,
 };
 
 function main() {
   //utils.mediaQuery.addListener(changeDesign); // Attach listener function on state changes
-  setInterval(checkPage, 2000);
+
+  chrome.storage.sync.get(['dictionary'], function (result) {
+    utils.dictionary = result.dictionary;
+  });
+
+  setInterval(checkPage, 1000);
 }
 main();
 
@@ -51,18 +57,40 @@ function checkPage() {
   }
 }
 
+function copyToClipboard(event) {
+  const answer = event.target.parentNode.parentNode.children[0];
+  answer.select();
+  answer.setSelectionRange(0, 99999); /*For mobile devices*/
+  document.execCommand('copy');
+  console.log('Copiado ' + answer.innerText);
+}
+
 function processAnswersPage(content) {
   const letter = utils.tryGetLetter();
   if (!letter) return false;
   console.log(letter);
 
+  const { dictionary } = utils;
+  console.log(dictionary);
+
   const answers = content.getElementsByTagName('label');
 
   for (answer of answers) {
-    var div = document.createElement('div');
-    div.classList.add('anser-box');
+    answer.classList.add('answer-label');
+    const topic = answer.innerText.toUpperCase();
+
+    let ans =
+      dictionary &&
+      dictionary[letter] &&
+      dictionary[letter][topic] &&
+      dictionary[letter][topic].length > 0
+        ? dictionary[letter][topic][0].toUpperCase()
+        : 'not found';
+
+    const div = document.createElement('div');
+    div.classList.add('answer-box');
     div.innerHTML = `
-      <span class="answer-word">Respostinha roubada</span>
+      <textarea readonly class="answer-word 1">${ans}</textarea>
         <div class="answer-options">
           <span class="answer-copy answer-btn">Copiar</span>
           <span class="answer-prev answer-btn">&lt;</span>
@@ -72,11 +100,13 @@ function processAnswersPage(content) {
     //<span class="answer-pages">1 de 10</span>
 
     answer.prepend(div);
-    //answer.style.height = '130px';
-    //answer.style.width = '180px';
   }
-
   console.log(answers);
+
+  const copyBtns = document.getElementsByClassName('answer-copy');
+  for (copyBtn of copyBtns) {
+    copyBtn.onclick = copyToClipboard;
+  }
 
   return true;
 }
@@ -85,6 +115,9 @@ function processValidationPage() {
   const letter = utils.tryGetLetter();
   if (!letter) return false;
   console.log(letter);
+
+  const answers = document.querySelectorAll('label > div');
+  // get btn, create my own btn, add valid answers to dictionary
 
   return true;
 }
@@ -96,32 +129,34 @@ function changeDesign() {
   const style = document.createElement('style');
   style.innerHTML = `
   body{
-    height: 1050px !important;
+    height: 970px !important;
   }
   #screens {
-    height: 950px;
-    min-width: 900px;
+    height: 890px;
+    min-width: 980px;
   }
   @media screen and (max-width: 1279px), screen and (max-height: 859px) {
     body {
-      height: 900px !important;
+      height: 830px !important;
     }
     #screens{
-      height: 800px !important;
+      height: 740px !important;
 
     }
   }
 
-  #screenGame .content .ct>div:nth-of-type(1) label { 
-    width: 180px !important;
-    height: 190px !important;
+  #screenGame .content .ct>div:nth-of-type(1) label.answer-label { 
+    width: 120px !important;
+    height: 150px !important;
+    font-size: 13px !important;
+    justify-content: space-between !important;
   }
 
   .answer-box {
     display: flex;
     flex-direction: column;
     color: #9b95d1;
-    width: max-content;
+    margin-bottom: 5px;
   }
   span.answer-word {
     text-transform: uppercase;
@@ -130,12 +165,32 @@ function changeDesign() {
     border-bottom: 1px dashed #9b95d1;
     padding-bottom: 5px;
   }
+
+  textarea.answer-word {
+    text-transform: uppercase;
+    background-color: transparent;
+    height: 22px;
+    margin-bottom: 5px;
+    text-align: center;
+    padding-bottom: 5px;
+    display: flex;
+    color: #9b95d1;
+    border: none;
+    overflow: hidden;
+    resize: none;
+   }
+   textarea.answer-word::selection{
+    background-color:#1a1a75;
+    color: #9b95d1;
+   }
+
   .answer-options {
     margin-top: 8px;
     display: flex;
     justify-content: space-between;
   }
   span.answer-btn {
+    cursor: pointer;
     border: 1px solid;
     padding: 5px;
     border-radius: 10px;

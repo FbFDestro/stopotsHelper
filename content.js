@@ -148,8 +148,6 @@ function processAnswersPage(content) {
     `;
     //<span class="answer-pages">1 de 10</span>
 
-    // ADD CSS TO DISABLED BTNS
-
     answer.prepend(div);
   }
 
@@ -173,13 +171,60 @@ function processAnswersPage(content) {
   return true;
 }
 
+function evaluateAndAddToDictionary(letter, topic, evaluateBtn) {
+  const answers = document.querySelectorAll('label > div');
+  for (const answer of answers) {
+    if ('done' in answer.dataset || answer.classList.contains('answer-box')) {
+      console.log('not here');
+      continue;
+    }
+    answer.dataset.done = true;
+    if (answer.classList.contains('valid')) {
+      const answerText = answer.innerText.toUpperCase();
+      console.log('Added ' + answerText);
+      if (!utils.dictionary[letter][topic]) {
+        utils.dictionary[letter][topic] = [answerText];
+      } else {
+        utils.dictionary[letter][topic].push(answerText);
+      }
+    }
+  }
+  // need to update full dictionay on chrome storage
+  console.log(utils.dictionary);
+  chrome.storage.sync.set({
+    dictionary: utils.dictionary,
+  });
+
+  evaluateBtn.click();
+}
+
 function processValidationPage() {
   const letter = utils.tryGetLetter();
   if (!letter) return false;
   console.log(letter);
 
-  const answers = document.querySelectorAll('label > div');
-  // get btn, create my own btn, add valid answers to dictionary
+  let topic = document.querySelector(
+    '#screenGame > div:nth-child(2) > div.content > div > div:nth-child(1) > h3'
+  ).innerText;
+  topic = topic.substr(topic.indexOf(':') + 2).toUpperCase();
+
+  console.log(letter + ' ' + topic);
+
+  const evaluateBtn = document.querySelector(
+    '#screenGame > div:nth-child(2) > div.content > div > button'
+  );
+
+  const evaluateAndAddBtn = document.createElement('button');
+  evaluateAndAddBtn.id = 'adddToDictionaryBtn';
+  evaluateAndAddBtn.classList.add('bt-yellow', 'icon-exclamation');
+  evaluateAndAddBtn.innerHTML = `<strong>Avaliar e adicionar</strong>`;
+
+  evaluateBtn.parentElement.insertBefore(evaluateAndAddBtn, evaluateBtn);
+
+  evaluateAndAddBtn.onclick = () => {
+    evaluateAndAddToDictionary(letter, topic, evaluateBtn);
+    evaluateAndAddBtn.classList.add('disable');
+  };
 
   return true;
 }

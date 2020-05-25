@@ -12,6 +12,7 @@ const utils = {
   },
   loadedStyle: false,
   dictionary: null,
+  answerSet: {},
 };
 
 function main() {
@@ -58,54 +59,115 @@ function checkPage() {
 }
 
 function copyToClipboard(event) {
+  // change to coppied button
   const answer = event.target.parentNode.parentNode.children[0];
   answer.select();
   answer.setSelectionRange(0, 99999); /*For mobile devices*/
   document.execCommand('copy');
+  event.target.innerText = 'Copiado';
+  setTimeout(() => {
+    event.target.innerText = 'Copiar';
+  }, 1000);
   console.log('Copiado ' + answer.innerText);
 }
 
+function changeAnswer(event, { action }) {
+  const { topic } = event.target.parentNode.dataset;
+  const currentAnswer = utils.answerSet[topic];
+  if (currentAnswer.index < 0) return;
+
+  if (action === 'prev') {
+    currentAnswer.index--;
+    if (currentAnswer.index < 0) {
+      currentAnswer.index = currentAnswer.indexArray.length - 1;
+    }
+  } else {
+    currentAnswer.index = (currentAnswer.index + 1) % currentAnswer.indexArray.length;
+  }
+  const answerBox = event.target.parentNode.parentNode;
+  const { letter } = answerBox.parentNode.dataset;
+  answerBox.children[0].value =
+    utils.dictionary[letter][topic][currentAnswer.indexArray[currentAnswer.index]];
+}
+
+function generateShuffledIndexArray(size) {
+  const indexArray = [];
+  for (let i = 0; i < size; i++) {
+    indexArray.push(i);
+  }
+  for (let i = size - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexArray[i], indexArray[j]] = [indexArray[j], indexArray[i]];
+  }
+  return indexArray;
+}
+
 function processAnswersPage(content) {
+  utils.answerSet = {}; // restart answerSet
+
   const letter = utils.tryGetLetter();
   if (!letter) return false;
   console.log(letter);
 
-  const { dictionary } = utils;
-  console.log(dictionary);
+  let { dictionary } = utils;
+  dictionary = dictionary ? dictionary[letter] : null;
 
   const answers = content.getElementsByTagName('label');
 
   for (answer of answers) {
-    answer.classList.add('answer-label');
+    answer.classList.add(`answer-label`);
+    answer.dataset.letter = letter;
     const topic = answer.innerText.toUpperCase();
 
-    let ans =
-      dictionary &&
-      dictionary[letter] &&
-      dictionary[letter][topic] &&
-      dictionary[letter][topic].length > 0
-        ? dictionary[letter][topic][0].toUpperCase()
+    if (dictionary && dictionary[topic] && dictionary[topic].length > 0) {
+      utils.answerSet[topic] = {
+        indexArray: generateShuffledIndexArray(dictionary[topic].length),
+        index: 0,
+      };
+    } else {
+      utils.answerSet[topic] = { index: -1 };
+    }
+
+    const currentAnswer = utils.answerSet[topic];
+
+    const disabled = currentAnswer.index < 0 ? 'disabled' : '';
+    const answerWord =
+      currentAnswer.index >= 0
+        ? dictionary[topic][currentAnswer.indexArray[currentAnswer.index]]
         : 'not found';
 
     const div = document.createElement('div');
     div.classList.add('answer-box');
     div.innerHTML = `
-      <textarea readonly class="answer-word 1">${ans}</textarea>
-        <div class="answer-options">
-          <span class="answer-copy answer-btn">Copiar</span>
-          <span class="answer-prev answer-btn">&lt;</span>
-          <span class="answer-next answer-btn">&gt;</span>
+      <textarea readonly class="answer-word">${answerWord}</textarea>
+        <div class="answer-options" data-topic="${topic}">
+          <button class="answer-copy answer-btn ${disabled}-btn" ${disabled}>Copiar</button>
+          <button class="answer-prev answer-btn ${disabled}-btn" ${disabled}>&lt;</button>
+          <button class="answer-next answer-btn ${disabled}-btn" ${disabled}>&gt;</button>
         </div> 
     `;
     //<span class="answer-pages">1 de 10</span>
 
+    // ADD CSS TO DISABLED BTNS
+
     answer.prepend(div);
   }
-  console.log(answers);
 
   const copyBtns = document.getElementsByClassName('answer-copy');
   for (copyBtn of copyBtns) {
     copyBtn.onclick = copyToClipboard;
+  }
+  const prevBtns = document.getElementsByClassName('answer-prev');
+  for (prevBtn of prevBtns) {
+    prevBtn.onclick = (event) => {
+      changeAnswer(event, { action: 'prev' });
+    };
+  }
+  const nextBtns = document.getElementsByClassName('answer-next');
+  for (nextBtn of nextBtns) {
+    nextBtn.onclick = (event) => {
+      changeAnswer(event, { action: 'next' });
+    };
   }
 
   return true;
@@ -189,18 +251,32 @@ function changeDesign() {
     display: flex;
     justify-content: space-between;
   }
-  span.answer-btn {
+  button.answer-btn {
+    background-color: #312b99;
+    color: #9b95d1;
     cursor: pointer;
     border: 1px solid;
     padding: 5px;
     border-radius: 10px;
-    margin: 0 3px;
+    margin: 0 2px !important;
     transition: 0.5s;
+    width: unset;
+    height: unset;
+    font-size: unset;
   }
-  span.answer-btn:hover {
+  button.answer-btn:hover {
     color: #fff;
   }
-  span.answer-pages {
+
+  button.answer-btn.disabled-btn{
+    cursor: default;
+  }
+
+  button.answer-btn.disabled-btn:hover{
+    color: #9b95d1;
+  }
+
+  button.answer-pages {
     padding: 6px 3px;
   }
   `;

@@ -16,7 +16,7 @@
   width: max-content;
 }
 
-span.answer-word {
+button.answer-word {
   text-transform: uppercase;
   margin-bottom: 5px;
   text-align: center;
@@ -29,7 +29,9 @@ span.answer-word {
   display: flex;
   justify-content: space-between;
 }
-span.answer-btn {
+button.answer-btn {
+  background-color: #312b99;
+  color: #9b95d1;
   border: 1px solid;
   padding: 5px;
   border-radius: 10px;
@@ -37,9 +39,9 @@ span.answer-btn {
   transition: 0.5s;
 }
 
-span.answer-btn:hover {
+button.answer-btn:hover {
   color: #fff;
 }
-span.answer-pages {
+button.answer-pages {
   padding: 6px 3px;
 }

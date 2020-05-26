@@ -1,0 +1,130 @@
+body {
+  background-color: #6158c6;
+  color: #fff;
+}
+
+h1 {
+  margin-top: 30px;
+  text-align: center;
+}
+#dictionary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.box-letter {
+  padding: 15px;
+  margin: 10px;
+  background-color: #312b99;
+  border-radius: 15px;
+  width: 440px;
+  text-align: center;
+}
+
+span.title-letter {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.box-topics {
+  border: 1px solid #6158c9;
+  margin: 10px;
+  padding: 15px 10px;
+  max-height: 500px;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+.box-topic {
+  border-bottom: 1px solid #6158c6;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.box-topic:last-child {
+  border: none;
+  margin-bottom: 0;
+}
+span.title-topic {
+  text-transform: uppercase;
+  font-size: 15px;
+  margin-right: 8px;
+}
+
+.box-answers {
+  margin-top: 5px;
+}
+
+/*
+.box-answer {
+}
+*/
+
+button.delete-btn,
+button.deleteTopic-btn {
+  background-color: #ff8995;
+  width: 130px;
+  border: none;
+  border-bottom: 4px #e24858 solid;
+  box-shadow: 0 -2px 0 0 #ffa1aa, 0 2px 0 0 #1a1a75, 0 3px 0 0 #5754d9;
+}
+button.delete-btn:hover,
+button.deleteTopic-btn:hover {
+  background-color: #fabdc3;
+  box-shadow: 0 -2px 0 0 #ffdfe1, 0 2px 0 0 #1a1a75, 0 3px 0 0 #5754d9;
+}
+
+button.delete-btn.deleted,
+button.deleteTopic-btn.deleted {
+  background-color: #61f7c4;
+  border: none;
+  border-top: 3px #2dc693 solid;
+  box-shadow: 0 -1px 0 3px #1a1a75, 0 4px 0 0 #5754d9;
+}
+button.delete-btn.deleted:hover,
+button.deleteTopic-btn.deleted:hover {
+  color: #40405e;
+  border-top-color: #58dcb0;
+  background-color: #92ffda;
+}
+input.topic-input {
+  width: 140px;
+}
+
+input[type='text'] {
+  border: none;
+  border-radius: 15px;
+  margin: 3px 0 0;
+  padding: 0 4px;
+  line-height: 40px;
+  text-align: center;
+  color: #3b3b63;
+  font-size: 16px;
+  background: #ebebed;
+  text-transform: uppercase;
+}
+
+input:read-only {
+  background-color: #bebebe;
+}
+
+button {
+  text-transform: uppercase;
+  color: #40405e;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 15px;
+  margin: 10px;
+  transition: 0.5s;
+  font-size: 18px;
+  border: none;
+  background-color: #61f7c4;
+  border-top: 3px #2dc693 solid;
+  box-shadow: 0 -1px 0 3px #1a1a75, 0 4px 0 0 #5754d9;
+}
+button:hover {
+  color: #40405e;
+  border-top-color: #58dcb0;
+  background-color: #92ffda;
+}

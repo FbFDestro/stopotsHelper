@@ -1,2 +1,3 @@
-# stopopts-hack
-Stopots hacker extension (educational purpose) 
+# stopopts-helper
+
+Stopots helperer extension (educational purpose)

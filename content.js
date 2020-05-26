@@ -34,15 +34,15 @@ function checkPage() {
     }
     if (content) {
       //changeDesign();
-      if (!content.classList.contains('hack-ready')) {
+      if (!content.classList.contains('helper-ready')) {
         // try to find type of page
         for (type in utils.pageTypes) {
           // if found a type
           if (content.classList.contains(type)) {
             // try to process page
             if (utils.pageTypes[type](content)) {
-              content.classList.add('hack-ready');
-              console.log('added hack ready');
+              content.classList.add('helper-ready');
+              console.log('added helper ready');
             } else {
               console.log('fail to process page');
             }

@@ -1,5 +1,5 @@
 const initialDictionary = {
-  A: { teste: ['a', 'b', 'c', 'd'] },
+  A: { TESTE: ['A', 'B', 'C', 'D'] },
   B: {},
   C: {},
   D: {},

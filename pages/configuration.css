@@ -41,6 +41,9 @@ span.title-letter {
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
+.box-topic.deleted {
+  display: none;
+}
 
 .box-topic:last-child {
   border: none;
@@ -54,6 +57,9 @@ span.title-topic {
 
 .box-answers {
   margin-top: 5px;
+}
+.box-answer.deleted {
+  display: none;
 }
 
 /*

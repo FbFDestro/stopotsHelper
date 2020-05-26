@@ -175,7 +175,6 @@ function evaluateAndAddToDictionary(letter, topic, evaluateBtn) {
   const answers = document.querySelectorAll('label > div');
   for (const answer of answers) {
     if ('done' in answer.dataset || answer.classList.contains('answer-box')) {
-      console.log('not here');
       continue;
     }
     answer.dataset.done = true;
@@ -185,7 +184,8 @@ function evaluateAndAddToDictionary(letter, topic, evaluateBtn) {
       if (!utils.dictionary[letter][topic]) {
         utils.dictionary[letter][topic] = [answerText];
       } else {
-        utils.dictionary[letter][topic].push(answerText);
+        if (utils.dictionary[letter][topic].indexOf(answerText) < 0)
+          utils.dictionary[letter][topic].push(answerText);
       }
     }
   }

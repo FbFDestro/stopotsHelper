@@ -1,3 +1,3 @@
-# stopopts-helper
+# stopots-helper
 
-Stopots helperer extension (educational purpose)
+Stopots helper extension (educational purpose)

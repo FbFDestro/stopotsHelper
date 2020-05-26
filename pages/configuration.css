@@ -1,11 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #6158c6;
   color: #fff;
 }
+header {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #312b99;
+  border-bottom: 1px solid #6158c6;
+  justify-content: center;
+  align-items: baseline;
+  position: sticky;
+  top: 0;
+}
+
+header h1 {
+  line-height: 0;
+}
 
 h1 {
-  margin-top: 30px;
   text-align: center;
+  margin-top: 30px;
 }
 #dictionary {
   display: flex;
@@ -133,4 +152,110 @@ button:hover {
   color: #40405e;
   border-top-color: #58dcb0;
   background-color: #92ffda;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #312b99;
+  color: #000;
+  margin: auto;
+  padding: 0;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 1000px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 16px 30px;
+  border-radius: 15px 15px 0 0;
+  background: #6158c6;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  line-height: 40px;
+}
+
+#modal-body {
+  padding: 20px 30px;
+  text-align: right;
+}
+
+textarea#modal-textarea {
+  width: 100%;
+  min-height: 200px;
+  resize: vertical;
+  background: #6158c6;
+  color: #a097fe;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+textarea#modal-textarea::placeholder {
+  color: #ccc;
+}
+
+textarea#modal-textarea::selection {
+  background: #ccc;
+  color: #000;
 }

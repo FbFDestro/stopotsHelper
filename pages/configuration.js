@@ -5,6 +5,7 @@ chrome.storage.sync.get(['dictionary'], function ({ dictionary: chromeDictionary
   dictionary = chromeDictionary;
   console.log(JSON.stringify(dictionary));
   processDictionary();
+  handleModal();
 });
 
 function processDictionary() {
@@ -104,6 +105,26 @@ function addAnswer({ target }) {
 
 const saveBtn = document.getElementById('saveBtn');
 saveBtn.onclick = () => {
+  try {
+    const dictionaryJsonString = convertToJsonString();
+    chrome.storage.sync.set(
+      {
+        dictionary: JSON.parse(dictionaryJsonString),
+      },
+      () => {
+        saveBtn.innerText = 'Alterações salvas!';
+        setTimeout(() => {
+          saveBtn.innerText = 'Salvar alterações';
+        }, 1000);
+        console.log('updated');
+      }
+    );
+  } catch (e) {
+    alert('Erro ao salvar alterações! JSON parser: ' + e.message);
+  }
+};
+
+function convertToJsonString() {
   let jsonString = '{';
   const letterElements = document.getElementsByClassName('box-letter');
 
@@ -143,13 +164,86 @@ saveBtn.onclick = () => {
   jsonString += '}';
 
   console.log(jsonString);
-  console.log(JSON.parse(jsonString));
-  chrome.storage.sync.set({
-    dictionary: JSON.parse(jsonString),
-  });
-  console.log('updated');
-};
+  return jsonString;
+}
 
-/*
-{"A":{"FILME":["rola","pica"],"teste":["a","b","c","d"]},"B":{},"C":{},"D":{"BRINQUEDO":["DADO","DINOSSAURO"],"MSÉ":["ppppp","mae"],"VILÃO":["DEMETRUS","DEAD POOL"]},"E":{},"F":{},"G":{},"H":{"PICA":["aa"]},"I":{},"J":{"Animal":["JIBOIA","JACARE","JUMENTO"],"Cidade":["JUNDIAI","JUIZ DE FORA","JUAZEIRO","JOENVILE"],"Comida":["JAMACA","JESTE","JACA","JUJUBA"],"Flor":["JASMIM"],"MSÉ":["JUMENTA"],"Nome Feminino":["JOANA","JULIANA","JESSICA"],"Palavra em Inglês":["JOGGING"],"Verbo":["JANTAR","JUNTAR","JOGAR","JUNTANDO","JURAR"],"Vestuário":["JAQUETA","JEANS"],"Vilão":["JOKER"]},"K":{},"L":{},"M":{},"N":{},"O":{"App ou Site":["ORKUT"],"Ave":["ORNITORRINCO"],"Celebridade":["OTAVIANO COSTA","OSVALDO CRUZ","OTAVIO MESQUITA"],"Doença":["OSTEOPOROSE"],"PCH":["OLHO","ORELHA"],"Palavra em Inglês":["OTHER","OCTOBER","OLD","OUT"],"Vestuário":["OMBREIRA"],"Vilão":["OSTRA","OROCHIMARU","OTARIO"]},"P":{},"Q":{},"R":{},"S":{},"T":{},"U":{},"V":{},"W":{},"X":{},"Y":{},"Z":{}}
-*/
+// modal
+
+function handleModal() {
+  const modal = document.getElementById('myModal');
+
+  const importBtn = document.getElementById('importBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+
+  const closeModalBtn = document.getElementsByClassName('close')[0];
+  closeModalBtn.onclick = function () {
+    modal.style.display = 'none';
+  };
+
+  function showImport() {
+    modalTitle.innerText = 'Importar um dicionário';
+    modalBody.innerHTML = `<textarea id="modal-textarea" placeholder=" Cole um dicionário válido"></textarea>
+                           <button id="modal-btn">Importar</button>`;
+
+    const modalBtn = modalBody.lastElementChild;
+
+    modalBtn.onclick = () => {
+      const modalTextarea = document.getElementById('modal-textarea');
+      const dictionaryString = modalTextarea.value;
+      console.log(modalTextarea);
+      try {
+        chrome.storage.sync.set(
+          {
+            dictionary: JSON.parse(dictionaryString),
+          },
+          () => {
+            modalBtn.innerText = 'Alterações salvas!';
+            setTimeout(() => {
+              location.reload();
+              modalBtn.innerText = 'Importar';
+            }, 1000);
+          }
+        );
+      } catch (e) {
+        alert('Erro ao salvar alterações! JSON parser: ' + e.message);
+      }
+    };
+  }
+
+  function showExport() {
+    modalTitle.innerText = 'Exportar meu dicionário';
+    const jsonString = convertToJsonString();
+    modalBody.innerHTML = `<textarea id="modal-textarea">${jsonString}</textarea>
+                           <button id="modal-btn">Copiar</button>`;
+
+    const modalBtn = modalBody.lastElementChild;
+
+    modalBtn.onclick = () => {
+      const modalTextarea = modalBody.firstElementChild;
+      modalTextarea.select();
+      modalTextarea.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      modalBtn.innerText = 'Copiado';
+      setTimeout(() => {
+        modalBtn.innerText = 'Copiar';
+      }, 1000);
+    };
+  }
+
+  importBtn.onclick = function () {
+    showImport();
+    modal.style.display = 'block';
+  };
+  exportBtn.onclick = function () {
+    showExport();
+    modal.style.display = 'block';
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}

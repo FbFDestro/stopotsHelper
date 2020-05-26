@@ -7,8 +7,25 @@
     <link rel="stylesheet" href="./configuration.css" />
   </head>
   <body>
+    <header>
+      <div id="logo"><h1>StopotS Helper</h1></div>
+      <button id="saveBtn">Salvar alterações</button>
+      <button id="importBtn">Importar dicionário</button>
+      <button id="exportBtn">Exportar dicionário</button>
+    </header>
+
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2 id="modal-title"></h2>
+        </div>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
     <h1>Seu dicionário:</h1>
-    <button id="saveBtn">Salvar alterações</button>
     <div id="dictionary"></div>
 
     <script src="./configuration.js"></script>

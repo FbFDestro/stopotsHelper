@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Stopopts Helper",
-  "short_name": "StopoptsHelper",
+  "name": "Stopots Helper",
+  "short_name": "StopotsHelper",
   "description": "Helper para o jogo Stopots",
   "version": "0.0.1",
   "content_scripts": [

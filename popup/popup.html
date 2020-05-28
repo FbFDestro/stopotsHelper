@@ -4,19 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
+    <header>
+      <div id="logo">
+        <img src="../imgs/icon.png" alt="StopotS Helper" />
+        <h1>StopotS Helper</h1>
+      </div>
+    </header>
+
     <div id="main">
-      <div class="answer-box">
-        <span class="answer-word">Respostinha roubada</span>
-        <div class="answer-options">
-          <button disabled class="answer-copy answer-btn">Copiar</button>
-          <button class="answer-prev answer-btn">&lt;</button>
-          <button class="answer-next answer-btn">&gt;</button>
-        </div> 
+      <div id="content">
+        <div id="toggle-active"></div>
+        <div id="myDictionary"><button id="myDictionaryBtn">Meu dicionário</button></div>
+      </div>
+      <p class="warn">
+        Para desativar completamente é preciso recarregar o site do StopotS
+      </p>
+    </div>
+
+    <footer>
+      <p class="legalWarn">
+        ATENÇÃO: Esta extensão foi criada para fins demonstrativos e NÃO deve ser
+        utilizada em partidas públicas. Não estrague o jogo alheio!
+      </p>
+      <div id="footer">
+        <div class="footerImg">
+          <img
+            src="../imgs/fbfdestroLogo.png"
+            class="fbfLogo"
+            alt="Desenvolvedor: Fabio F. Destro"
+          />
+        </div>
+        <div class="footerImg">
+          <a
+            href="https://github.com/FbFDestro/stopots-helper
+            target="_blank"
+            title="Código fonte"
+            ><img class="github" src="../imgs/github.png" alt="Código fonte"
+          /></a>
+        </div>
+        <div class="footerText">
+          <p>
+            <a
+              href="mailto:stopotshelper@gmail.com"
+              alt="Contact us to report bugs and send suggestions"
+              >stopotshelper@gmail.com</a
+            >
+          </p>
         </div>
       </div>
-    </div>
+    </footer>
+
+    <script src="./popup.js"></script>
   </body>
 </html>

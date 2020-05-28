@@ -13,13 +13,25 @@ header {
   background-color: #312b99;
   border-bottom: 1px solid #6158c6;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
+  opacity: 0.9;
   position: sticky;
   top: 0;
 }
 
+#logo {
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  height: 38px;
+  margin: 10px;
+}
+
 header h1 {
-  line-height: 0;
+  line-height: 38px;
+  margin-top: 0;
 }
 
 h1 {
@@ -152,6 +164,41 @@ button:hover {
   color: #40405e;
   border-top-color: #58dcb0;
   background-color: #92ffda;
+}
+
+footer {
+  margin-top: 30px;
+  background: #312b99;
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  line-height: 18px;
+  flex-direction: row-reverse;
+  text-align: justify;
+  align-items: center;
+}
+p.legalWarn {
+  padding: 15px 20px;
+}
+
+div#footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 350px;
+  padding: 15px 20px;
+}
+
+.footerImg img {
+  height: 38px;
+}
+
+.footerText {
+  width: min-content;
+  text-align: right;
+}
+.footerText a {
+  color: #fff;
 }
 
 /* The Modal (background) */

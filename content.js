@@ -15,16 +15,28 @@ const utils = {
   answerSet: {},
 };
 
-function main() {
-  //utils.mediaQuery.addListener(changeDesign); // Attach listener function on state changes
-
-  chrome.storage.sync.get(['dictionary'], function (result) {
-    utils.dictionary = result.dictionary;
+function checkActive() {
+  chrome.storage.local.get(['active'], function (result) {
+    if (result.active) {
+      main();
+    }
   });
-
-  setInterval(checkPage, 1000);
 }
-main();
+checkActive();
+
+chrome.runtime.onMessage.addListener(reciveMessage);
+function reciveMessage(message, sender, sendResponse) {
+  if (message.type == 'toggleActive') {
+    checkActive();
+  }
+}
+
+function main() {
+  chrome.storage.local.get(['dictionary'], function (result) {
+    utils.dictionary = result.dictionary;
+    setInterval(checkPage, 1000);
+  });
+}
 
 function checkPage() {
   try {
@@ -117,7 +129,9 @@ function processAnswersPage(content) {
   for (answer of answers) {
     answer.classList.add(`answer-label`);
     answer.dataset.letter = letter;
+
     const topic = answer.innerText.toUpperCase();
+    console.log(topic);
 
     if (dictionary && dictionary[topic] && dictionary[topic].length > 0) {
       utils.answerSet[topic] = {
@@ -134,12 +148,12 @@ function processAnswersPage(content) {
     const answerWord =
       currentAnswer.index >= 0
         ? dictionary[topic][currentAnswer.indexArray[currentAnswer.index]]
-        : 'not found';
+        : 'Sem resposta';
 
     const div = document.createElement('div');
     div.classList.add('answer-box');
     div.innerHTML = `
-      <textarea readonly class="answer-word">${answerWord}</textarea>
+      <textarea readonly class="answer-word ${disabled}">${answerWord}</textarea>
         <div class="answer-options" data-topic="${topic}">
           <button class="answer-copy answer-btn ${disabled}-btn" ${disabled}>Copiar</button>
           <button class="answer-prev answer-btn ${disabled}-btn" ${disabled}>&lt;</button>
@@ -183,15 +197,19 @@ function evaluateAndAddToDictionary(letter, topic, evaluateBtn) {
       console.log('Added ' + answerText);
       if (!utils.dictionary[letter][topic]) {
         utils.dictionary[letter][topic] = [answerText];
+      } else if (
+        utils.dictionary[letter][topic].length < 5 &&
+        utils.dictionary[letter][topic].indexOf(answerText) < 0
+      ) {
+        utils.dictionary[letter][topic].push(answerText);
       } else {
-        if (utils.dictionary[letter][topic].indexOf(answerText) < 0)
-          utils.dictionary[letter][topic].push(answerText);
+        console.log('already on or more than 5');
       }
     }
   }
   // need to update full dictionay on chrome storage
   console.log(utils.dictionary);
-  chrome.storage.sync.set({
+  chrome.storage.local.set({
     dictionary: utils.dictionary,
   });
 
@@ -207,7 +225,16 @@ function processValidationPage() {
     '#screenGame > div:nth-child(2) > div.content > div > div:nth-child(1) > h3'
   ).innerText;
   topic = topic.substr(topic.indexOf(':') + 2).toUpperCase();
+  console.log(topic);
 
+  let tooltip = document.querySelector(
+    '#screenGame > div:nth-child(2) > div.content > div > div:nth-child(1) > h3 > span'
+  );
+  if (tooltip) {
+    tooltip = tooltip.textContent.toUpperCase();
+    console.log(tooltip);
+    if (topic.indexOf(tooltip) > -1) topic = topic.substring(0, topic.indexOf(tooltip));
+  }
   console.log(letter + ' ' + topic);
 
   const evaluateBtn = document.querySelector(
@@ -281,11 +308,16 @@ function changeDesign() {
     text-align: center;
     padding-bottom: 5px;
     display: flex;
-    color: #9b95d1;
+    color: #29d3b2;
     border: none;
     overflow: hidden;
     resize: none;
    }
+   
+   textarea.answer-word.disabled{
+    color: #9b95d1;
+   }
+
    textarea.answer-word::selection{
     background-color:#1a1a75;
     color: #9b95d1;

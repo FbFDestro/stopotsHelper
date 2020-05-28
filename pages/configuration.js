@@ -1,7 +1,7 @@
 const dictionaryDiv = document.getElementById('dictionary');
 let dictionary = {};
 
-chrome.storage.sync.get(['dictionary'], function ({ dictionary: chromeDictionary }) {
+chrome.storage.local.get(['dictionary'], function ({ dictionary: chromeDictionary }) {
   dictionary = chromeDictionary;
   console.log(JSON.stringify(dictionary));
   processDictionary();
@@ -107,7 +107,7 @@ const saveBtn = document.getElementById('saveBtn');
 saveBtn.onclick = () => {
   try {
     const dictionaryJsonString = convertToJsonString();
-    chrome.storage.sync.set(
+    chrome.storage.local.set(
       {
         dictionary: JSON.parse(dictionaryJsonString),
       },
@@ -194,7 +194,7 @@ function handleModal() {
       const dictionaryString = modalTextarea.value;
       console.log(modalTextarea);
       try {
-        chrome.storage.sync.set(
+        chrome.storage.local.set(
           {
             dictionary: JSON.parse(dictionaryString),
           },

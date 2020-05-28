@@ -24,5 +24,8 @@
     "default_title": "Stopots Helper",
     "default_popup": "popup/popup.html"
   },
+  "icons": {
+    "256": "imgs/icon.png"
+  },
   "permissions": ["tabs", "storage"]
 }

@@ -75,20 +75,6 @@ function addTopic({ target }) {
   boxTopics.prepend(boxTopic);
 }
 
-/*
-function deleteBox({ target }) {
-  const answerBox = target.parentNode;
-  if (!target.classList.contains('deleted')) {
-    target.innerText = 'Adicionar';
-    target.classList.add('deleted');
-    answerBox.children[0].readOnly = true;
-  } else {
-    target.innerText = 'Apagar';
-    target.classList.remove('deleted');
-    answerBox.children[0].readOnly = false;
-  }
-}
-*/
 function deleteBox({ target }) {
   const answerBox = target.parentNode;
   target.parentNode.classList.add('deleted');
@@ -216,6 +202,10 @@ function handleModal() {
     modalTitle.innerText = 'Exportar meu dicionário';
     const jsonString = convertToJsonString();
     modalBody.innerHTML = `<textarea id="modal-textarea">${jsonString}</textarea>
+                           <span class="sendUs">Envie o seu dicinário para
+                             <a href="mailto:stopotshelper@gmail.com">stopotshelper@gmail.com</a> 
+                             e nos ajude a melhorar!
+                           </span> 
                            <button id="modal-btn">Copiar</button>`;
 
     const modalBtn = modalBody.lastElementChild;

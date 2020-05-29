@@ -3,20 +3,32 @@
   padding: 0;
 }
 
+@font-face {
+  font-family: nexaB;
+  src: url(fonts/nexaB.otf);
+}
+
 body {
   background-color: #6158c6;
   color: #fff;
 }
 header {
-  display: flex;
-  flex-wrap: wrap;
   background-color: #312b99;
   border-bottom: 1px solid #6158c6;
-  justify-content: center;
-  align-items: center;
   opacity: 0.9;
   position: sticky;
   top: 0;
+}
+a {
+  color: #fff;
+}
+
+#header {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 #logo {
@@ -35,8 +47,7 @@ header h1 {
 }
 
 h1 {
-  text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 #dictionary {
   display: flex;
@@ -44,109 +55,9 @@ h1 {
   justify-content: center;
 }
 
-.box-letter {
-  padding: 15px;
-  margin: 10px;
-  background-color: #312b99;
-  border-radius: 15px;
-  width: 440px;
-  text-align: center;
-}
-
-span.title-letter {
-  font-size: 20px;
-  margin-left: 10px;
-}
-
-.box-topics {
-  border: 1px solid #6158c9;
-  margin: 10px;
-  padding: 15px 10px;
-  max-height: 500px;
-  overflow: auto;
-  border-radius: 10px;
-}
-
-.box-topic {
-  border-bottom: 1px solid #6158c6;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-}
-.box-topic.deleted {
-  display: none;
-}
-
-.box-topic:last-child {
-  border: none;
-  margin-bottom: 0;
-}
-span.title-topic {
-  text-transform: uppercase;
-  font-size: 15px;
-  margin-right: 8px;
-}
-
-.box-answers {
-  margin-top: 5px;
-}
-.box-answer.deleted {
-  display: none;
-}
-
-/*
-.box-answer {
-}
-*/
-
-button.delete-btn,
-button.deleteTopic-btn {
-  background-color: #ff8995;
-  width: 130px;
-  border: none;
-  border-bottom: 4px #e24858 solid;
-  box-shadow: 0 -2px 0 0 #ffa1aa, 0 2px 0 0 #1a1a75, 0 3px 0 0 #5754d9;
-}
-button.delete-btn:hover,
-button.deleteTopic-btn:hover {
-  background-color: #fabdc3;
-  box-shadow: 0 -2px 0 0 #ffdfe1, 0 2px 0 0 #1a1a75, 0 3px 0 0 #5754d9;
-}
-
-button.delete-btn.deleted,
-button.deleteTopic-btn.deleted {
-  background-color: #61f7c4;
-  border: none;
-  border-top: 3px #2dc693 solid;
-  box-shadow: 0 -1px 0 3px #1a1a75, 0 4px 0 0 #5754d9;
-}
-button.delete-btn.deleted:hover,
-button.deleteTopic-btn.deleted:hover {
-  color: #40405e;
-  border-top-color: #58dcb0;
-  background-color: #92ffda;
-}
-input.topic-input {
-  width: 140px;
-}
-
-input[type='text'] {
-  border: none;
-  border-radius: 15px;
-  margin: 3px 0 0;
-  padding: 0 4px;
-  line-height: 40px;
-  text-align: center;
-  color: #3b3b63;
-  font-size: 16px;
-  background: #ebebed;
-  text-transform: uppercase;
-}
-
-input:read-only {
-  background-color: #bebebe;
-}
-
-button {
+a#installBtn {
+  font-family: nexaB;
+  text-decoration: none;
   text-transform: uppercase;
   color: #40405e;
   cursor: pointer;
@@ -160,10 +71,71 @@ button {
   border-top: 3px #2dc693 solid;
   box-shadow: 0 -1px 0 3px #1a1a75, 0 4px 0 0 #5754d9;
 }
-button:hover {
+a#installBtn:hover {
   color: #40405e;
   border-top-color: #58dcb0;
   background-color: #92ffda;
+}
+
+main {
+  padding: 30px 0;
+  min-height: 80vh;
+  margin: 0 auto;
+  font-family: NexaB;
+}
+
+main h1 {
+  font-size: 21px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.box-description {
+  width: 320px;
+  border: 1px solid #fff;
+  margin: 0 20px;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  border-radius: 14px;
+  line-height: 26px;
+}
+
+.box-description h1 {
+  margin: 0;
+  border-bottom: 1px solid #6158c6;
+  padding: 10px 20px;
+  background: #7f75e3;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+
+.box-description h1.active,
+.box-description h1:hover {
+  background: #312b99;
+}
+
+.box img {
+  border-radius: 20px;
+  height: 600px;
+}
+#box-img {
+  border: 1px solid #231e5d;
+  margin: 0 20px;
+  height: 600px;
+  border-radius: 22px;
+}
+
+.box-details {
+  padding: 20px;
+}
+.hidden {
+  display: none;
 }
 
 footer {

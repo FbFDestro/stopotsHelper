@@ -122,12 +122,14 @@ main h1 {
 
 .box img {
   border-radius: 20px;
-  height: 600px;
+  max-height: 600px;
+  max-width: 100%;
 }
 #box-img {
   border: 1px solid #231e5d;
   margin: 0 20px;
-  height: 600px;
+  margin-bottom: 10px;
+  max-height: 600px;
   border-radius: 22px;
 }
 
@@ -146,6 +148,7 @@ footer {
   justify-content: space-around;
   line-height: 18px;
   flex-direction: row-reverse;
+  flex-wrap: wrap;
   text-align: justify;
   align-items: center;
 }

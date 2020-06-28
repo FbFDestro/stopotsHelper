@@ -1,3 +1,5 @@
+const MAX_ANS = 3;
+
 const utils = {
   pageTypes: {
     answers: processAnswersPage,
@@ -198,12 +200,12 @@ function evaluateAndAddToDictionary(letter, topic, evaluateBtn) {
       if (!utils.dictionary[letter][topic]) {
         utils.dictionary[letter][topic] = [answerText];
       } else if (
-        utils.dictionary[letter][topic].length < 5 &&
+        utils.dictionary[letter][topic].length < MAX_ANS &&
         utils.dictionary[letter][topic].indexOf(answerText) < 0
       ) {
         utils.dictionary[letter][topic].push(answerText);
       } else {
-        console.log('already on or more than 5');
+        console.log('already on or more than MAX_ANS');
       }
     }
   }
@@ -257,7 +259,7 @@ function processValidationPage() {
 }
 
 function changeDesign() {
-  const ref = document.getElementById('extraClass');
+  const ref = document.getElementsByTagName('body')[0];
   if (!ref) return false;
 
   const style = document.createElement('style');
@@ -358,6 +360,6 @@ function changeDesign() {
   }
   `;
 
-  ref.parentNode.insertBefore(style, ref);
+  ref.appendChild(style);
   return true;
 }

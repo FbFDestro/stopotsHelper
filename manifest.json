@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "content_scripts": [
     {
-      "matches": ["*://*.stopots.com.br/*"],
+      "matches": ["*://*.stopots.com/*"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
